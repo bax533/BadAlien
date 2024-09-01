@@ -25,10 +25,10 @@ public class EarthScript : MonoBehaviour
         int currentGreensSpawned = Singleton.Instance.numOfSpawnedGreens;
         while(Singleton.Instance.numOfSpawnedGreens < currentGreensSpawned + 10)
         {
-            Debug.Log(Singleton.Instance.numOfSpawnedGreens + "before");
+            // Debug.Log(Singleton.Instance.numOfSpawnedGreens + "before");
             SpawnGreen();
-            yield return new WaitForSeconds(.05f);
-            Debug.Log(Singleton.Instance.numOfSpawnedGreens + "after");
+            yield return new WaitForSeconds(.01f);
+            // Debug.Log(Singleton.Instance.numOfSpawnedGreens + "after");
         }
     }
 
@@ -39,7 +39,7 @@ public class EarthScript : MonoBehaviour
         spawnTimer_ -= Time.deltaTime;
         if(Input.GetKeyDown("space"))
         {
-            Debug.Log("spawning");
+            // Debug.Log("spawning");
             spawnTimer_ = spawnTimer;
             StartCoroutine(SpawnGreens());
         }
@@ -54,8 +54,8 @@ public class EarthScript : MonoBehaviour
     {
         Vector3 posFromCenter = GetRandomSpawnPosition();
 
-        GameObject newGreen = Instantiate(greenPrefab, this.transform.position + posFromCenter, Quaternion.identity, this.transform);
-        newGreen.transform.rotation = Quaternion.LookRotation(Quaternion.AngleAxis(90, Vector3.right) * posFromCenter, posFromCenter + posFromCenter);
+        GameObject newGreen = Instantiate(greenPrefab, this.transform.position + posFromCenter, Quaternion.identity * Quaternion.FromToRotation(Vector3.up, posFromCenter), this.transform);
+        // newGreen.transform.rotation = Quaternion.LookRotation(Quaternion.AngleAxis(90, Vector3.right) * posFromCenter, posFromCenter + posFromCenter);
     }
 
     public Vector3 GetRandomSpawnPosition()

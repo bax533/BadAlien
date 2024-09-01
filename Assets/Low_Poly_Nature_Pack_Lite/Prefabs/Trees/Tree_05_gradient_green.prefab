@@ -15,7 +15,7 @@ GameObject:
   - component: {fileID: 9196460329001952738}
   m_Layer: 0
   m_Name: Tree_05_gradient_green
-  m_TagString: Untagged
+  m_TagString: Green
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 68
@@ -114,8 +114,8 @@ BoxCollider:
   m_ProvidesContacts: 0
   m_Enabled: 1
   serializedVersion: 3
-  m_Size: {x: 1, y: 9.778022, z: 1}
-  m_Center: {x: 0, y: -0.57393885, z: 0}
+  m_Size: {x: 1, y: 5.197441, z: 1}
+  m_Center: {x: 0, y: 1.7163516, z: 0}
 --- !u!1 &797671255109713130
 GameObject:
   m_ObjectHideFlags: 0
