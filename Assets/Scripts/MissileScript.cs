@@ -7,13 +7,14 @@ public class MissileScript : MonoBehaviour
     public Vector3 direction;
     public float speed;
     public GameObject explosionPrefab;
-    public float lifetime = 15.0f;
+    public float lifetime = 10.0f;
     
     private Vector3 earthCenterPos;
     private float rotationSpeed;
 
     void Start()
     {
+        speed = Singleton.Instance.currentMissileSpeed;
         earthCenterPos = GameObject.Find("Earth").transform.position;
         rotationSpeed = Random.Range(5.0f, 50.0f);
     }
@@ -33,14 +34,14 @@ public class MissileScript : MonoBehaviour
 
     void OnTriggerEnter(Collider collider)
     {
-        Debug.Log("COLLISION!!!!");
-        if(collider.gameObject.tag != "EarthSphere")
+        // Debug.Log("COLLISION!!!!");
+        if(collider.gameObject.tag == "EarthSphere" || collider.gameObject.tag == "Green")
         {
-            Vector3 explosionUpVec = transform.position - earthCenterPos;
-            GameObject explosion = Instantiate(explosionPrefab, this.transform.position, Quaternion.identity * Quaternion.FromToRotation(Vector3.up, explosionUpVec), GameObject.Find("Earth").transform);
-            Debug.Log("BOOM!");
+            Vector3 explosionUpVec = (transform.position - earthCenterPos);
+            GameObject explosion = Instantiate(explosionPrefab, transform.position, Quaternion.identity * Quaternion.FromToRotation(Vector3.up, explosionUpVec), GameObject.Find("Earth").transform);
+            explosion.transform.localScale = new Vector3(Singleton.Instance.currentExplosionRange, 1.0f, Singleton.Instance.currentExplosionRange);
+            // Debug.Log("BOOM!");
+            Destroy(gameObject);
         }
-
-        Destroy(gameObject);
     }
 }

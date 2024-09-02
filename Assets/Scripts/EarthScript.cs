@@ -4,20 +4,24 @@ using UnityEngine;
 
 public class EarthScript : MonoBehaviour
 {
+    public GameObject End_Canvas;
+    public GameObject UI_Canvas;
+
+    public float radius = 52.5f;
     public float rotationSpeed = 5.0f;
-    public float spawnTimer = 5.0f;
+    public float spawnTimer = 18.0f;
     private float spawnTimer_;
 
     public int n_spawn_attempts = 200;
 
-    public GameObject greenPrefab;
+    public GameObject[] greenPrefabs;
 
     // Start is called before the first frame update
     void Start()
     {
         Random.seed = (int)System.DateTime.Now.Ticks;
 
-        spawnTimer_ = spawnTimer;
+        spawnTimer_ = 2.0f;
     }
 
     IEnumerator SpawnGreens()
@@ -35,9 +39,12 @@ public class EarthScript : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+        if(!Singleton.Instance.gameStarted)
+            return;
+
         EarthRotation();
         spawnTimer_ -= Time.deltaTime;
-        if(Input.GetKeyDown("space"))
+        if(spawnTimer_ <= 0.0f)
         {
             // Debug.Log("spawning");
             spawnTimer_ = spawnTimer;
@@ -47,6 +54,11 @@ public class EarthScript : MonoBehaviour
 
     void EarthRotation()
     {
+
+        // if(Input.GetKey("left")) rotationSpeed = 20.0f;
+        // else if(Input.GetKey("right")) rotationSpeed = -20.0f;
+        // else rotationSpeed = 0.0f;
+
         transform.Rotate(0.0f, rotationSpeed * Time.deltaTime, 0.0f, Space.Self);
     }
 
@@ -54,13 +66,13 @@ public class EarthScript : MonoBehaviour
     {
         Vector3 posFromCenter = GetRandomSpawnPosition();
 
-        GameObject newGreen = Instantiate(greenPrefab, this.transform.position + posFromCenter, Quaternion.identity * Quaternion.FromToRotation(Vector3.up, posFromCenter), this.transform);
+        int prefab_it = Random.Range(0, greenPrefabs.Length);
+        GameObject newGreen = Instantiate(greenPrefabs[prefab_it], this.transform.position + posFromCenter, Quaternion.identity * Quaternion.FromToRotation(Vector3.up, posFromCenter), this.transform);
         // newGreen.transform.rotation = Quaternion.LookRotation(Quaternion.AngleAxis(90, Vector3.right) * posFromCenter, posFromCenter + posFromCenter);
     }
 
     public Vector3 GetRandomSpawnPosition()
     {
-        float radius = 52.20f;
         float r_tmp = 0.0f;
 
         float a = Random.Range(1.0f, 100.0f);
