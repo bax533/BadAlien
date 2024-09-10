@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 public class Singleton : MonoBehaviour 
 {
@@ -130,11 +131,21 @@ public class Singleton : MonoBehaviour
     public void StartGame(float gameTime)
     {
         Instance.timeLeft = gameTime;
+        if(gameTime >= 10000)
+            Instance.points = 99999999;
+        else
+            Instance.points = 0;
         Instance.gameStarted = true;
     }
 
     public void RegisterSpawnedGreen()
     {
         Instance.numOfSpawnedGreens += 1;
+    }
+
+    public void RestartGame()
+    {
+        string currentSceneName = SceneManager.GetActiveScene().name;
+        SceneManager.LoadScene(currentSceneName);
     }
 }
